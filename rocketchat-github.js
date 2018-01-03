@@ -84,11 +84,14 @@ const githubEvents = {
         var action = "Comment "
     }
 
+    var body = request.content.comment.body +
+        ' Comment by: ' + request.content.comment.user.login;
+
     const text = '_' + request.content.repository.full_name + '_\n' +
                 '**[' + action + ' on issue ​#' + request.content.issue.number +
                 ' - ' + request.content.issue.title + '](' +
                 request.content.comment.html_url + ')**\n' +
-                request.content.comment.body;
+                body;
 
     return {
       content: {
