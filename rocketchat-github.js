@@ -49,7 +49,7 @@ const githubEvents = {
         return {
           error: {
             success: false,
-            message: 'Unsupported issue action'
+            message: 'Unsupported issue action: ' + request.content.action
           }
         };
     }
@@ -58,8 +58,8 @@ const githubEvents = {
 
     const text = '_' + request.content.repository.full_name + '_\n' +
                 '**[' + action + ' issue ​#' + request.content.issue.number +
-                ' - ' + request.content.issue.title + "**" + '](' +
-                request.content.issue.html_url + ')\n' +
+                ' - ' + request.content.issue.title + '](' +
+                request.content.issue.html_url + ')**\n' +
                 body;
 
     return {
@@ -152,8 +152,9 @@ const githubEvents = {
   pull_request(request) {
     const user = request.content.sender;
 
-   if (request.content.action == "opened" || request.content.action == "reopened" || request.content.action == "edited" || request.content.action == "synchronize") {
-        var body = request.content.pull_request.body;
+   if (request.content.action == "opened" || request.content.action == "reopened" || request.content.action == "edited") {
+        var body = request.content.pull_request.body +
+            ' Opened by: ' + request.content.pull_request.user.login;
     } else if (request.content.action == "labeled") {
         var body = "Current labels: " + getLabelsField(request.content.pull_request.labels).value;
     } else if (request.content.action == "assigned" || request.content.action == "unassigned") {
@@ -169,7 +170,7 @@ const githubEvents = {
         return {
           error: {
             success: false,
-            message: 'Unsupported pull request action'
+            message: 'Unsupported pull request action: ' + request.content.action
           }
         };
     }
@@ -178,8 +179,8 @@ const githubEvents = {
 
     const text = '_' + request.content.repository.full_name + '_\n' +
                 '**[' + action + ' pull request ​#' + request.content.pull_request.number +
-                ' - ' + request.content.pull_request.title + "**" + '](' +
-                request.content.pull_request.html_url + ')\n' +
+                ' - ' + request.content.pull_request.title + '](' +
+                request.content.pull_request.html_url + ')**\n' +
                 body;
 
     return {
