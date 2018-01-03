@@ -58,8 +58,8 @@ const githubEvents = {
 
     const text = '_' + request.content.repository.full_name + '_\n' +
                 '**[' + action + ' issue ​#' + request.content.issue.number +
-                ' - ' + request.content.issue.title + "**" + '](' +
-                request.content.issue.html_url + ')\n' +
+                ' - ' + request.content.issue.title + '](' +
+                request.content.issue.html_url + ')**\n' +
                 body;
 
     return {
@@ -178,8 +178,8 @@ const githubEvents = {
 
     const text = '_' + request.content.repository.full_name + '_\n' +
                 '**[' + action + ' pull request ​#' + request.content.pull_request.number +
-                ' - ' + request.content.pull_request.title + "**" + '](' +
-                request.content.pull_request.html_url + ')\n' +
+                ' - ' + request.content.pull_request.title + '](' +
+                request.content.pull_request.html_url + ')**\n' +
                 body;
 
     return {
