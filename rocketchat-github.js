@@ -49,7 +49,7 @@ const githubEvents = {
         return {
           error: {
             success: false,
-            message: 'Unsupported issue action'
+            message: 'Unsupported issue action: ' + request.content.action
           }
         };
     }
@@ -169,7 +169,7 @@ const githubEvents = {
         return {
           error: {
             success: false,
-            message: 'Unsupported pull request action'
+            message: 'Unsupported pull request action: ' + request.content.action
           }
         };
     }
