@@ -1,4 +1,6 @@
-/* exported Script */
+/* Inspired by https://rocket.chat/docs/administrator-guides/integrations/github/.
+We update it in https://github.com/graduway/webhook then paste into
+Rocket.Chat admin settings. */
 
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -57,14 +59,13 @@ const githubEvents = {
     const text = '_' + request.content.repository.full_name + '_\n' +
                 '**[' + action + ' issue ​#' + request.content.issue.number +
                 ' - ' + request.content.issue.title + "**" + '](' +
-                request.content.issue.html_url + ')\n\n' +
+                request.content.issue.html_url + ')\n' +
                 body;
 
     return {
       content: {
         attachments: [
             {
-                thumb_url: user.avatar_url,
                 text: text,
                 fields: []
             }
@@ -86,14 +87,13 @@ const githubEvents = {
     const text = '_' + request.content.repository.full_name + '_\n' +
                 '**[' + action + ' on issue ​#' + request.content.issue.number +
                 ' - ' + request.content.issue.title + '](' +
-                request.content.comment.html_url + ')**\n\n' +
+                request.content.comment.html_url + ')**\n' +
                 request.content.comment.body;
 
     return {
       content: {
         attachments: [
             {
-                thumb_url: user.avatar_url,
                 text: text,
                 fields: []
             }
@@ -117,7 +117,7 @@ const githubEvents = {
     const user = request.content.sender;
 
     var text = '**Pushed to ' + "["+request.content.repository.full_name+"]("+request.content.repository.url+"):"
-                + request.content.ref.split('/').pop() + "**\n\n";
+                + request.content.ref.split('/').pop() + "**\n";
 
     for (var i = 0; i < commits.length; i++) {
       var commit = commits[i];
@@ -140,7 +140,6 @@ const githubEvents = {
       content: {
         attachments: [
             {
-                thumb_url: user.avatar_url,
                 text: text,
                 fields: []
             }
@@ -180,14 +179,13 @@ const githubEvents = {
     const text = '_' + request.content.repository.full_name + '_\n' +
                 '**[' + action + ' pull request ​#' + request.content.pull_request.number +
                 ' - ' + request.content.pull_request.title + "**" + '](' +
-                request.content.pull_request.html_url + ')\n\n' +
+                request.content.pull_request.html_url + ')\n' +
                 body;
 
     return {
       content: {
         attachments: [
             {
-                thumb_url: user.avatar_url,
                 text: text,
                 fields: []
             }
@@ -195,6 +193,34 @@ const githubEvents = {
       }
     };
   },
+
+  /* COMMENT ON EXISTING PULL REQUEST REVIEW */
+  pull_request_review_comment(request) {
+    const user = request.content.comment.user;
+
+    if (request.content.action == "edited") {
+        var action = "Edited comment ";
+    } else {
+        var action = "Comment "
+    }
+
+    const text = '_' + request.content.repository.full_name + '_\n' +
+                '**[' + action + ' on pull request ​#' + request.content.pull_request.number +
+                ' - ' + request.content.pull_request.title + '](' +
+                request.content.comment.html_url + ')**\n' +
+                request.content.comment.body;
+
+    return {
+      content: {
+        attachments: [
+            {
+                text: text,
+                fields: []
+            }
+        ]
+      }
+    };
+  },  // End Github Pull Request Review
 };
 
 class Script {
