@@ -25,17 +25,17 @@ class Script {
     // Set default variables then overwrite if we know the state
     var colour = "#FFFF00";
     var state = "Unknown state";
-    if (request.content.state == "open") {
+    if (request.content.incident.state == "open") {
       colour = "#FF0000";
       state = "Open";
-    } else if (request.content.state == "closed") {
+    } else if (request.content.incident.state == "closed") {
       colour = "#00FF00";
       state = "Closed";
     };
 
-    var title = state + ' ' + request.content.condition_name +
-      ' alert for ' + request.content.policy_name + ' ' +
-      request.content.condition_name;
+    var title = state + ' ' + request.content.incident.condition_name +
+      ' alert for ' + request.content.incident.policy_name + ' ' +
+      request.content.incident.condition_name;
 
     return {
       content:{
@@ -46,8 +46,8 @@ class Script {
         //  "author_link": "https://demo.rocket.chat/direct/rocket.cat",
         //  "author_icon": "https://demo.rocket.chat/avatar/rocket.cat.jpg",
           "title": title,
-          "title_link": request.content.url,
-          "text": request.content.summary,
+          "title_link": request.content.incident.url,
+          "text": request.content.incident.summary,
         //  "fields": [{
         //    "title": "Priority",
         //    "value": "High",
