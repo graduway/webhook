@@ -47,7 +47,7 @@ class Script {
         //  "author_icon": "https://demo.rocket.chat/avatar/rocket.cat.jpg",
           "title": title,
           "title_link": request.content.incident.url,
-          "text": request.content.incident.summary,
+          "text": '@all ' + request.content.incident.summary,
         //  "fields": [{
         //    "title": "Priority",
         //    "value": "High",
