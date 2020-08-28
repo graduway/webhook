@@ -155,7 +155,7 @@ const githubEvents = {
   pull_request(request) {
     const user = request.content.sender;
 
-   if (request.content.action == "opened" || request.content.action == "reopened" || request.content.action == "edited") {
+   if (request.content.action == "opened" || request.content.action == "reopened") {
         var body = request.content.pull_request.body +
             ' Opened by: ' + request.content.pull_request.user.login;
     } else if (request.content.action == "labeled") {
