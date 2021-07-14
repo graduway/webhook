@@ -235,7 +235,9 @@ const githubEvents = {
   }, // End Github Pull Request Review
 };
 
+// eslint-disable-next-line no-unused-vars
 class Script {
+  // eslint-disable-next-line camelcase, class-methods-use-this
   process_incoming_request({ request }) {
     const header = request.headers["x-github-event"];
     if (githubEvents[header]) {
