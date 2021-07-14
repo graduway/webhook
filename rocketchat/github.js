@@ -40,10 +40,6 @@ const githubEvents = {
       request.content.action == "edited"
     ) {
       var { body } = request.content.issue;
-    } else if (request.content.action == "labeled") {
-      var body = `Current labels: ${
-        getLabelsField(request.content.issue.labels).value
-      }`;
     } else if (
       request.content.action == "assigned" ||
       request.content.action == "unassigned"
