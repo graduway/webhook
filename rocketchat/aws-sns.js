@@ -23,6 +23,14 @@ class Script {
     const captures = /(?<message>Message: .*)\n+(?<env>Environment: .*)\n/;
     const found = full_message.match(captures);
     const { message, env } = found.groups;
+    if (env.includes("sidekiq")) {
+      return {
+        error: {
+          success: false,
+          message: "Not currently supporting noisy sidekiq alerts",
+        },
+      };
+    }
     let text = `${env}\n${message}`;
 
     if ("SubscribeURL" in content) {
