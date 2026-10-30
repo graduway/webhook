@@ -1,0 +1,19 @@
+name: Jira Validation (Production PR)
+
+on:
+  pull_request:
+    branches: [master]
+    types: [opened, reopened, synchronize, edited]
+
+jobs:
+  call-jira-validation:
+    uses: graduway/devops-tools/.github/workflows/reusable-jira-validation.yaml@main
+    permissions:                                                                                                                                                                                                          
+        pull-requests: write
+    with:
+      title_only: true
+      # jira_project_keys omitted = accepts any [A-Z]+-[0-9]+ key (format: [GRAV-123] Fix foo)
+      JIRA_BASE_URL: ${{ vars.JIRA_BASE_URL }}
+      JIRA_PAT_EMAIL: ${{ vars.JIRA_PAT_EMAIL }}
+    secrets:
+      JIRA_PAT_TOKEN: ${{ secrets.JIRA_PAT_TOKEN }}
